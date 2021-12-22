@@ -14,6 +14,9 @@ namespace TicTacToe
             int n;
             string char1;
             string char2;
+            int inARowWins = 5;
+            string rowWins;
+
 
             // choose size of the table (n x n) and player chars
             do
@@ -21,15 +24,31 @@ namespace TicTacToe
                 Console.Write("Please choose the size of the table! \n(The entered number (n) draws a n*n grid.\n" +
                  "E.g. 3-> 3*3, 4-> 4*4, etc.)\nEnter number: ");
                 n = Convert.ToInt32(Console.ReadLine());
+                Console.Write("Choose how many symbols you need to collect to win! (3/4/5 or leave empty for default settings):");
+                rowWins = Console.ReadLine();
+
+
+                if (rowWins == "" || rowWins == " ")
+                {
+                    if (n == 3 || n == 4) { inARowWins = 3; }
+                    if (n == 5 || n == 6) { inARowWins = 4; }
+                }
+                else { inARowWins = Convert.ToInt32(rowWins); }
+
+
                 Console.Write("Player 1, please enter the character you would like to play with (default set to 'X'): ");
                 string input1 = Console.ReadLine();
-                if (input1 == "" || input1 == " ") { char1 = "X"; } else { char1 = input1; }
+                bool isNum1 = int.TryParse(input1, out int res);
+                if (input1 == "" || input1 == " " || isNum1) { char1 = "X"; } else { char1 = input1; }
                 Console.Write("Player 2, please enter the character you would like to play with (default set to 'O'): ");
                 string input2 = Console.ReadLine();
-                if (input2 == "" || input2 == " ") { char2 = "O"; } else { char2 = input2; }
+                bool isNum2 = int.TryParse(input2, out int res2);
+                if (input2 == "" || input2 == " " || isNum2) { char2 = "O"; } else { char2 = input2; }
 
-                if (n < 3 || n > 9) { Console.WriteLine("Please choose a number between 3 and 9!"); Console.ReadLine(); Console.Clear(); }
-            } while (n < 3 || n > 9);
+                if (n < 3 || n > 9) { Console.WriteLine("Please choose a table size between 3 and 9!"); Console.ReadLine(); Console.Clear(); }
+                if (inARowWins > n || inARowWins > 5 || inARowWins < 3) { Console.WriteLine("\n\nIvalid settings, please try again!"); Console.ReadLine(); Console.Clear(); }
+            } while (n < 3 || n > 9 || inARowWins > n || inARowWins > 5 || inARowWins < 3);
+
             Console.Clear();
 
             string[,] matrix2D = new string[n, n];
@@ -46,6 +65,7 @@ namespace TicTacToe
 
             do
             {
+                Console.WriteLine("The first to have " + inARowWins + " in a row wins! \n");
                 //draw matrix and grid
                 for (int i = 0; i < matrix2D.GetLength(0); i++)
                 {
@@ -93,27 +113,27 @@ namespace TicTacToe
                                 else { matrix2D[i, j] = char2; }
                                 //check if anyone has won
 
-                                switch (n)
+                                switch (inARowWins)
                                 {
                                     case 3: //diagonal win /
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i + 1, j - 1] && matrix2D[i, j] == matrix2D[i + 2, j - 2])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i - 1, j + 1] && matrix2D[i, j] == matrix2D[i + 1, j - 1])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i - 1, j + 1] && matrix2D[i, j] == matrix2D[i - 2, j + 2])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
@@ -124,21 +144,21 @@ namespace TicTacToe
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i + 1, j + 1] && matrix2D[i, j] == matrix2D[i + 2, j + 2])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i - 1, j - 1] && matrix2D[i, j] == matrix2D[i - 2, j - 2])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i - 1, j - 1] && matrix2D[i, j] == matrix2D[i + 1, j + 1])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
@@ -149,21 +169,21 @@ namespace TicTacToe
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i, j + 1] && matrix2D[i, j] == matrix2D[i, j + 2])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i, j - 1] && matrix2D[i, j] == matrix2D[i, j - 2])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i, j - 1] && matrix2D[i, j] == matrix2D[i, j + 1])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
@@ -174,21 +194,21 @@ namespace TicTacToe
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i + 1, j] && matrix2D[i, j] == matrix2D[i + 2, j])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i - 1, j] && matrix2D[i, j] == matrix2D[i - 2, j])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i - 1, j] && matrix2D[i, j] == matrix2D[i + 1, j])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
@@ -198,28 +218,28 @@ namespace TicTacToe
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i + 1, j - 1] && matrix2D[i, j] == matrix2D[i + 2, j - 2] && matrix2D[i, j] == matrix2D[i + 3, j - 3])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i - 1, j + 1] && matrix2D[i, j] == matrix2D[i + 1, j - 1] && matrix2D[i, j] == matrix2D[i + 2, j - 2])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i - 1, j + 1] && matrix2D[i, j] == matrix2D[i - 2, j + 2] && matrix2D[i, j] == matrix2D[i + 1, j - 1])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i - 1, j + 1] && matrix2D[i, j] == matrix2D[i - 2, j + 2] && matrix2D[i, j] == matrix2D[i - 3, j + 3])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
@@ -230,28 +250,28 @@ namespace TicTacToe
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i + 1, j + 1] && matrix2D[i, j] == matrix2D[i + 2, j + 2] && matrix2D[i, j] == matrix2D[i + 3, j + 3])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i - 1, j - 1] && matrix2D[i, j] == matrix2D[i - 2, j - 2] && matrix2D[i, j] == matrix2D[i + 1, j + 1])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i - 1, j - 1] && matrix2D[i, j] == matrix2D[i + 1, j + 1] && matrix2D[i, j] == matrix2D[i + 2, j + 2])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i - 1, j - 1] && matrix2D[i, j] == matrix2D[i - 2, j - 2] && matrix2D[i, j] == matrix2D[i - 3, j - 3])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
@@ -262,28 +282,28 @@ namespace TicTacToe
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i, j + 1] && matrix2D[i, j] == matrix2D[i, j + 2] && matrix2D[i, j] == matrix2D[i, j + 3])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i, j - 1] && matrix2D[i, j] == matrix2D[i, j - 2] && matrix2D[i, j] == matrix2D[i, j + 1])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i, j - 1] && matrix2D[i, j] == matrix2D[i, j + 1] && matrix2D[i, j] == matrix2D[i, j + 2])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i, j - 1] && matrix2D[i, j] == matrix2D[i, j - 2] && matrix2D[i, j] == matrix2D[i, j - 3])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
@@ -294,28 +314,28 @@ namespace TicTacToe
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i + 1, j] && matrix2D[i, j] == matrix2D[i + 2, j] && matrix2D[i, j] == matrix2D[i + 3, j])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i - 1, j] && matrix2D[i, j] == matrix2D[i - 2, j] && matrix2D[i, j] == matrix2D[i + 1, j])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i - 1, j] && matrix2D[i, j] == matrix2D[i + 1, j] && matrix2D[i, j] == matrix2D[i + 2, j])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i - 1, j] && matrix2D[i, j] == matrix2D[i - 2, j] && matrix2D[i, j] == matrix2D[i - 3, j])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
@@ -325,35 +345,35 @@ namespace TicTacToe
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i + 1, j - 1] && matrix2D[i, j] == matrix2D[i + 2, j - 2] && matrix2D[i, j] == matrix2D[i + 3, j - 3] && matrix2D[i, j] == matrix2D[i + 4, j - 4])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i - 1, j + 1] && matrix2D[i, j] == matrix2D[i + 1, j - 1] && matrix2D[i, j] == matrix2D[i + 2, j - 2] && matrix2D[i, j] == matrix2D[i + 3, j - 3])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i - 1, j + 1] && matrix2D[i, j] == matrix2D[i - 2, j + 2] && matrix2D[i, j] == matrix2D[i + 1, j - 1] && matrix2D[i, j] == matrix2D[i + 2, j - 2])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i - 1, j + 1] && matrix2D[i, j] == matrix2D[i - 2, j + 2] && matrix2D[i, j] == matrix2D[i - 3, j + 3] && matrix2D[i, j] == matrix2D[i + 1, j - 1])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i - 1, j + 1] && matrix2D[i, j] == matrix2D[i - 2, j + 2] && matrix2D[i, j] == matrix2D[i - 3, j + 3] && matrix2D[i, j] == matrix2D[i - 4, j + 4])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
@@ -364,35 +384,35 @@ namespace TicTacToe
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i + 1, j + 1] && matrix2D[i, j] == matrix2D[i + 2, j + 2] && matrix2D[i, j] == matrix2D[i + 3, j + 3] && matrix2D[i, j] == matrix2D[i + 4, j + 4])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i - 1, j - 1] && matrix2D[i, j] == matrix2D[i - 2, j - 2] && matrix2D[i, j] == matrix2D[i + 1, j + 1] && matrix2D[i, j] == matrix2D[i + 2, j + 2])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i - 1, j - 1] && matrix2D[i, j] == matrix2D[i + 1, j + 1] && matrix2D[i, j] == matrix2D[i + 2, j + 2] && matrix2D[i, j] == matrix2D[i + 3, j + 3])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i - 1, j - 1] && matrix2D[i, j] == matrix2D[i - 2, j - 2] && matrix2D[i, j] == matrix2D[i - 3, j - 3] && matrix2D[i, j] == matrix2D[i + 1, j + 1])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i - 1, j - 1] && matrix2D[i, j] == matrix2D[i - 2, j - 2] && matrix2D[i, j] == matrix2D[i - 3, j - 3] && matrix2D[i, j] == matrix2D[i - 4, j - 4])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
@@ -403,35 +423,35 @@ namespace TicTacToe
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i, j + 1] && matrix2D[i, j] == matrix2D[i, j + 2] && matrix2D[i, j] == matrix2D[i, j + 3] && matrix2D[i, j] == matrix2D[i, j + 4])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i, j - 1] && matrix2D[i, j] == matrix2D[i, j - 2] && matrix2D[i, j] == matrix2D[i, j + 1] && matrix2D[i, j] == matrix2D[i, j + 2])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i, j - 1] && matrix2D[i, j] == matrix2D[i, j + 1] && matrix2D[i, j] == matrix2D[i, j + 2] && matrix2D[i, j] == matrix2D[i, j + 3])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i, j - 1] && matrix2D[i, j] == matrix2D[i, j - 2] && matrix2D[i, j] == matrix2D[i, j - 3] && matrix2D[i, j] == matrix2D[i, j + 1])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i, j - 1] && matrix2D[i, j] == matrix2D[i, j - 2] && matrix2D[i, j] == matrix2D[i, j - 3] && matrix2D[i, j] == matrix2D[i, j - 4])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
@@ -442,35 +462,35 @@ namespace TicTacToe
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i + 1, j] && matrix2D[i, j] == matrix2D[i + 2, j] && matrix2D[i, j] == matrix2D[i + 3, j] && matrix2D[i, j] == matrix2D[i + 4, j])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i - 1, j] && matrix2D[i, j] == matrix2D[i - 2, j] && matrix2D[i, j] == matrix2D[i + 1, j] && matrix2D[i, j] == matrix2D[i + 2, j])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i - 1, j] && matrix2D[i, j] == matrix2D[i + 1, j] && matrix2D[i, j] == matrix2D[i + 2, j] && matrix2D[i, j] == matrix2D[i + 3, j])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i - 1, j] && matrix2D[i, j] == matrix2D[i - 2, j] && matrix2D[i, j] == matrix2D[i - 3, j] && matrix2D[i, j] == matrix2D[i + 1, j])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
                                         try
                                         {
                                             if (matrix2D[i, j] == matrix2D[i - 1, j] && matrix2D[i, j] == matrix2D[i - 2, j] && matrix2D[i, j] == matrix2D[i - 3, j] && matrix2D[i, j] == matrix2D[i - 4, j])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } win = true; break; }
+                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } Console.ReadLine(); win = true; break; }
                                         }
                                         catch (IndexOutOfRangeException)
                                         { }
@@ -480,10 +500,11 @@ namespace TicTacToe
                             else { continue; }
                         }
                     }
+
                 }
                 else { Console.WriteLine("Invalid enrty."); Console.ReadLine(); Console.Clear(); counter--; continue; }
-                /*Console.WriteLine("Debug (counter): " + counter); */
-                Console.ReadLine(); Console.Clear();
+                /*Console.WriteLine("Debug (counter): " + counter); Console.ReadLine();*/
+                Console.Clear();
             } while (!win);
             Console.ReadLine();
         }
