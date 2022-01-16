@@ -2,7 +2,7 @@
 
 namespace TicTacToe
 {
-    class Program
+    internal class Program
     {
         public static bool win = false;
         public static string inputString;
@@ -11,11 +11,10 @@ namespace TicTacToe
         public static int n;
         public static string char1;
         public static string char2;
-        static int inARowWins = 5;
-        static string rowWins;
+        private static int inARowWins = 5;
+        private static string rowWins;
 
-
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Initialize();
             Console.Clear();
@@ -25,445 +24,16 @@ namespace TicTacToe
             do
             {
                 DrawGrid(matrix2D, inARowWins);
-                GetInput(matrix2D);
-
-                //decide whos next, receive input
-                counter++;
-
-                if (counter == matrix2D.Length)
-                {
-                    Console.WriteLine("\n\nGAME OVER"); Console.ReadLine(); break;
-                }
-
-                if (counter % 2 == 0)
-                {
-                    Console.Write("\n\nPlayer1 chooses: ");
-                }
-
-                else
-                {
-                    Console.Write("\n\nPlayer2 chooses: ");
-                }
-
-                inputString = Console.ReadLine();
-
-
-                if (int.TryParse(inputString, out input))
-                {
-                    // detect number already taken/out of range TBD
-                    //if (numTakenArray.Contains(input)){ }
-                    //numTakenArray[counter] = input;
-
-                    // check input and replace array value with X/O depending on PlayerNum & counter
-                    for (int i = 0; i < matrix2D.GetLength(0); i++)
-                    {
-                        for (int j = 0; j < matrix2D.GetLength(1); j++)
-                        {
-                            if (matrix2D[i, j] == inputString)
-                            {
-                                if (counter % 2 == 0) { matrix2D[i, j] = char1; }
-                                else { matrix2D[i, j] = char2; }
-                                //check if anyone has won
-                                Console.ReadLine();
-                                switch (inARowWins)
-                                {
-                                    case 3: //diagonal win /
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i + 1, j - 1] && matrix2D[i, j] == matrix2D[i + 2, j - 2])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i - 1, j + 1] && matrix2D[i, j] == matrix2D[i + 1, j - 1])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i - 1, j + 1] && matrix2D[i, j] == matrix2D[i - 2, j + 2])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-
-
-
-                                        //other diagonal win \
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i + 1, j + 1] && matrix2D[i, j] == matrix2D[i + 2, j + 2])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i - 1, j - 1] && matrix2D[i, j] == matrix2D[i - 2, j - 2])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i - 1, j - 1] && matrix2D[i, j] == matrix2D[i + 1, j + 1])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-
-
-
-                                        //horizontal win
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i, j + 1] && matrix2D[i, j] == matrix2D[i, j + 2])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i, j - 1] && matrix2D[i, j] == matrix2D[i, j - 2])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i, j - 1] && matrix2D[i, j] == matrix2D[i, j + 1])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-
-
-
-                                        //vertical win
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i + 1, j] && matrix2D[i, j] == matrix2D[i + 2, j])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i - 1, j] && matrix2D[i, j] == matrix2D[i - 2, j])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i - 1, j] && matrix2D[i, j] == matrix2D[i + 1, j])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        break;
-                                    case 4:
-                                        //diagonal win /
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i + 1, j - 1] && matrix2D[i, j] == matrix2D[i + 2, j - 2] && matrix2D[i, j] == matrix2D[i + 3, j - 3])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i - 1, j + 1] && matrix2D[i, j] == matrix2D[i + 1, j - 1] && matrix2D[i, j] == matrix2D[i + 2, j - 2])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i - 1, j + 1] && matrix2D[i, j] == matrix2D[i - 2, j + 2] && matrix2D[i, j] == matrix2D[i + 1, j - 1])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i - 1, j + 1] && matrix2D[i, j] == matrix2D[i - 2, j + 2] && matrix2D[i, j] == matrix2D[i - 3, j + 3])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-
-
-
-                                        //other diagonal win \
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i + 1, j + 1] && matrix2D[i, j] == matrix2D[i + 2, j + 2] && matrix2D[i, j] == matrix2D[i + 3, j + 3])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i - 1, j - 1] && matrix2D[i, j] == matrix2D[i - 2, j - 2] && matrix2D[i, j] == matrix2D[i + 1, j + 1])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i - 1, j - 1] && matrix2D[i, j] == matrix2D[i + 1, j + 1] && matrix2D[i, j] == matrix2D[i + 2, j + 2])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i - 1, j - 1] && matrix2D[i, j] == matrix2D[i - 2, j - 2] && matrix2D[i, j] == matrix2D[i - 3, j - 3])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-
-
-
-                                        //horizontal win
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i, j + 1] && matrix2D[i, j] == matrix2D[i, j + 2] && matrix2D[i, j] == matrix2D[i, j + 3])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i, j - 1] && matrix2D[i, j] == matrix2D[i, j - 2] && matrix2D[i, j] == matrix2D[i, j + 1])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i, j - 1] && matrix2D[i, j] == matrix2D[i, j + 1] && matrix2D[i, j] == matrix2D[i, j + 2])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i, j - 1] && matrix2D[i, j] == matrix2D[i, j - 2] && matrix2D[i, j] == matrix2D[i, j - 3])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-
-
-
-                                        //vertical win
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i + 1, j] && matrix2D[i, j] == matrix2D[i + 2, j] && matrix2D[i, j] == matrix2D[i + 3, j])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i - 1, j] && matrix2D[i, j] == matrix2D[i - 2, j] && matrix2D[i, j] == matrix2D[i + 1, j])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i - 1, j] && matrix2D[i, j] == matrix2D[i + 1, j] && matrix2D[i, j] == matrix2D[i + 2, j])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i - 1, j] && matrix2D[i, j] == matrix2D[i - 2, j] && matrix2D[i, j] == matrix2D[i - 3, j])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        break;
-                                    default:
-                                        //diagonal win /
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i + 1, j - 1] && matrix2D[i, j] == matrix2D[i + 2, j - 2] && matrix2D[i, j] == matrix2D[i + 3, j - 3] && matrix2D[i, j] == matrix2D[i + 4, j - 4])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i - 1, j + 1] && matrix2D[i, j] == matrix2D[i + 1, j - 1] && matrix2D[i, j] == matrix2D[i + 2, j - 2] && matrix2D[i, j] == matrix2D[i + 3, j - 3])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i - 1, j + 1] && matrix2D[i, j] == matrix2D[i - 2, j + 2] && matrix2D[i, j] == matrix2D[i + 1, j - 1] && matrix2D[i, j] == matrix2D[i + 2, j - 2])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i - 1, j + 1] && matrix2D[i, j] == matrix2D[i - 2, j + 2] && matrix2D[i, j] == matrix2D[i - 3, j + 3] && matrix2D[i, j] == matrix2D[i + 1, j - 1])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i - 1, j + 1] && matrix2D[i, j] == matrix2D[i - 2, j + 2] && matrix2D[i, j] == matrix2D[i - 3, j + 3] && matrix2D[i, j] == matrix2D[i - 4, j + 4])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(/)"); } else { Console.WriteLine("Player2 WINS(/)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-
-
-
-                                        //other diagonal win \
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i + 1, j + 1] && matrix2D[i, j] == matrix2D[i + 2, j + 2] && matrix2D[i, j] == matrix2D[i + 3, j + 3] && matrix2D[i, j] == matrix2D[i + 4, j + 4])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i - 1, j - 1] && matrix2D[i, j] == matrix2D[i - 2, j - 2] && matrix2D[i, j] == matrix2D[i + 1, j + 1] && matrix2D[i, j] == matrix2D[i + 2, j + 2])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i - 1, j - 1] && matrix2D[i, j] == matrix2D[i + 1, j + 1] && matrix2D[i, j] == matrix2D[i + 2, j + 2] && matrix2D[i, j] == matrix2D[i + 3, j + 3])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i - 1, j - 1] && matrix2D[i, j] == matrix2D[i - 2, j - 2] && matrix2D[i, j] == matrix2D[i - 3, j - 3] && matrix2D[i, j] == matrix2D[i + 1, j + 1])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i - 1, j - 1] && matrix2D[i, j] == matrix2D[i - 2, j - 2] && matrix2D[i, j] == matrix2D[i - 3, j - 3] && matrix2D[i, j] == matrix2D[i - 4, j - 4])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(dia)"); } else { Console.WriteLine("Player2 WINS(dia)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-
-
-
-                                        //horizontal win
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i, j + 1] && matrix2D[i, j] == matrix2D[i, j + 2] && matrix2D[i, j] == matrix2D[i, j + 3] && matrix2D[i, j] == matrix2D[i, j + 4])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i, j - 1] && matrix2D[i, j] == matrix2D[i, j - 2] && matrix2D[i, j] == matrix2D[i, j + 1] && matrix2D[i, j] == matrix2D[i, j + 2])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i, j - 1] && matrix2D[i, j] == matrix2D[i, j + 1] && matrix2D[i, j] == matrix2D[i, j + 2] && matrix2D[i, j] == matrix2D[i, j + 3])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i, j - 1] && matrix2D[i, j] == matrix2D[i, j - 2] && matrix2D[i, j] == matrix2D[i, j - 3] && matrix2D[i, j] == matrix2D[i, j + 1])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i, j - 1] && matrix2D[i, j] == matrix2D[i, j - 2] && matrix2D[i, j] == matrix2D[i, j - 3] && matrix2D[i, j] == matrix2D[i, j - 4])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(-)"); } else { Console.WriteLine("Player2 WINS(-)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-
-
-
-                                        //vertical win
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i + 1, j] && matrix2D[i, j] == matrix2D[i + 2, j] && matrix2D[i, j] == matrix2D[i + 3, j] && matrix2D[i, j] == matrix2D[i + 4, j])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i - 1, j] && matrix2D[i, j] == matrix2D[i - 2, j] && matrix2D[i, j] == matrix2D[i + 1, j] && matrix2D[i, j] == matrix2D[i + 2, j])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i - 1, j] && matrix2D[i, j] == matrix2D[i + 1, j] && matrix2D[i, j] == matrix2D[i + 2, j] && matrix2D[i, j] == matrix2D[i + 3, j])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i - 1, j] && matrix2D[i, j] == matrix2D[i - 2, j] && matrix2D[i, j] == matrix2D[i - 3, j] && matrix2D[i, j] == matrix2D[i + 1, j])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        try
-                                        {
-                                            if (matrix2D[i, j] == matrix2D[i - 1, j] && matrix2D[i, j] == matrix2D[i - 2, j] && matrix2D[i, j] == matrix2D[i - 3, j] && matrix2D[i, j] == matrix2D[i - 4, j])
-                                            { if (matrix2D[i, j] == char1) { Console.WriteLine("Player1 WINS(|)"); } else { Console.WriteLine("Player2 WINS(|)"); } Console.ReadLine(); win = true; break; }
-                                        }
-                                        catch (IndexOutOfRangeException)
-                                        { }
-                                        break;
-                                }
-                            }
-                            else { continue; }
-                        }
-                    }
-
-                }
-                else { Console.WriteLine("Invalid enrty."); Console.ReadLine(); Console.Clear(); counter--; continue; }
+                GetInput(matrix2D, char1, char2);
                 /*Console.WriteLine("Debug (counter): " + counter); Console.ReadLine();*/
-                Console.Clear();
-
+                win = CheckForWinner(matrix2D, inARowWins);
+                if (!win) { Console.Clear(); }
             } while (!win);
 
             Console.ReadLine();
         }
 
-        static void Initialize()
+        private static void Initialize()
         {
             // choose size of the table (n x n) and player chars
             do
@@ -474,14 +44,12 @@ namespace TicTacToe
                 Console.Write("Choose how many symbols you need to collect to win! (3/4/5 or leave empty for default settings):");
                 rowWins = Console.ReadLine();
 
-
                 if (rowWins == "" || rowWins == " ")
                 {
                     if (n == 3 || n == 4) { inARowWins = 3; }
                     if (n == 5 || n == 6) { inARowWins = 4; }
                 }
                 else { inARowWins = Convert.ToInt32(rowWins); }
-
 
                 Console.Write("Player 1, please enter the character you would like to play with (default set to 'X'): ");
                 string input1 = Console.ReadLine();
@@ -493,8 +61,8 @@ namespace TicTacToe
                 if (input2 == "" || input2 == " " || isNum2) { char2 = "O"; } else { char2 = input2; }
 
                 if (n < 3 || n > 9) { Console.WriteLine("Please choose a table size between 3 and 9!"); Console.ReadLine(); Console.Clear(); }
-                if (inARowWins > n || inARowWins > 5 || inARowWins < 3) { Console.WriteLine("\n\nIvalid settings, please try again!"); Console.ReadLine(); Console.Clear(); }
-            } while (n < 3 || n > 9 || inARowWins > n || inARowWins > 5 || inARowWins < 3);
+                if (inARowWins > n /*|| inARowWins > 5*/ || inARowWins < 3) { Console.WriteLine("\n\nIvalid settings, please try again!"); Console.ReadLine(); Console.Clear(); }
+            } while (n < 3 || n > 9 || inARowWins > n /*|| inARowWins > 5*/ || inARowWins < 3);
         }
 
         public static void Enumerate(string[,] matrix2D)
@@ -539,8 +107,195 @@ namespace TicTacToe
             }
         }
 
-        public static void GetInput(string[,] matrix2D)
+        public static void GetInput(string[,] matrix2D, string char1, string char2)
         {
+            bool inputSucceded = false;
+            do
+            {
+                //decide whos next, receive input
+
+                counter++;
+
+                if (counter == matrix2D.Length)
+                {
+                    Console.WriteLine("\n\nGAME OVER"); Console.ReadLine(); break;
+                }
+
+                if (counter % 2 == 0)
+                {
+                    Console.Write("\n\nPlayer1 chooses: ");
+                }
+                else
+                {
+                    Console.Write("\n\nPlayer2 chooses: ");
+                }
+
+                inputString = Console.ReadLine();
+
+                if (int.TryParse(inputString, out input))
+                {
+                    // detect number already taken/out of range TBD
+                    //if (numTakenArray.Contains(input)){ }
+                    //numTakenArray[counter] = input;
+
+                    // check input and replace array value with X/O depending on PlayerNum & counter
+                    for (int i = 0; i < matrix2D.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < matrix2D.GetLength(1); j++)
+                        {
+                            if (matrix2D[i, j] == inputString)
+                            {
+                                if (counter % 2 == 0)
+                                {
+                                    matrix2D[i, j] = char1; inputSucceded = true; break;
+                                }
+                                else
+                                {
+                                    matrix2D[i, j] = char2; inputSucceded = true; break;
+                                }
+                            }
+                            else { continue; }
+                        }
+                    }
+                    break;
+                }
+                else { Console.WriteLine("Invalid enrty."); Console.ReadLine(); Console.Clear(); counter--; continue; }
+            } while (inputSucceded);
+        }
+
+        public static bool CheckForWinner(string[,] matrix2D, int inARowWins)
+        {
+            for (int i = 0; i < matrix2D.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix2D.GetLength(1); j++)
+                {
+                    try
+                    {   //if matrix item and next in row is equal check it with next in row,
+                        //repeat for inARowWins times
+
+                        //diagonal win /
+                        for (int k = 1; k <= inARowWins;)
+                        {
+                            if (matrix2D[i, j] == matrix2D[i + k, j - k])
+                            {
+                                k++;
+
+                                if (k == inARowWins)
+                                {
+                                    if (matrix2D[i, j] == char1)
+                                    {
+                                        Console.WriteLine("Player1 WINS(/)");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Player2 WINS(/)");
+                                    }
+                                    Console.ReadLine();
+                                    return true;
+                                }
+                            }
+                            else { break; }
+                        }
+                    }
+                    catch (IndexOutOfRangeException)
+                    { }
+
+                    try
+                    {   //if matrix item and next in row is equal check it with next in row,
+                        //repeat for inARowWins times
+
+                        //other diagonal win
+                        for (int k = 1; k <= inARowWins;)
+                        {
+                            if (matrix2D[i, j] == matrix2D[i + k, j + k])
+                            {
+                                k++;
+
+                                if (k == inARowWins)
+                                {
+                                    if (matrix2D[i, j] == char1)
+                                    {
+                                        Console.WriteLine("Player1 WINS(dia)");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Player2 WINS(dia)");
+                                    }
+                                    Console.ReadLine();
+                                    return true;
+                                }
+                            }
+                            else { break; }
+                        }
+                    }
+                    catch (IndexOutOfRangeException)
+                    { }
+
+                    try
+                    {   //if matrix item and next in row is equal check it with next in row,
+                        //repeat for inARowWins times
+
+                        //horizontal win
+                        for (int k = 1; k <= inARowWins;)
+                        {
+                            if (matrix2D[i, j] == matrix2D[i, j + k])
+                            {
+                                k++;
+
+                                if (k == inARowWins)
+                                {
+                                    if (matrix2D[i, j] == char1)
+                                    {
+                                        Console.WriteLine("Player1 WINS(-)");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Player2 WINS(-)");
+                                    }
+                                    Console.ReadLine();
+                                    return true;
+                                }
+                            }
+                            else { break; }
+                        }
+                    }
+                    catch (IndexOutOfRangeException)
+                    { }
+                    try
+                    {   //if matrix item and next in row is equal check it with next in row,
+                        //repeat for inARowWins times
+
+                        //vertical win
+                        for (int k = 1; k <= inARowWins;)
+                        {
+                            if (matrix2D[i, j] == matrix2D[i + k, j])
+                            {
+                                k++;
+
+                                if (k == inARowWins)
+                                {
+                                    if (matrix2D[i, j] == char1)
+                                    {
+                                        Console.WriteLine("Player1 WINS(|)");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Player2 WINS(|)");
+                                    }
+                                    Console.ReadLine();
+                                    return true;
+                                }
+                            }
+                            else { break; }
+                        }
+                    }
+                    catch (IndexOutOfRangeException)
+                    { }
+
+
+                }
+            }
+            return false;
         }
     }
 }
